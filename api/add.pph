@@ -1,0 +1,70 @@
+<?php
+
+// conectarse a db
+require_once __DIR__ . '/../connect_db.php';
+
+// Obtenemos valores de $_POST
+// TODO: agregar validación.
+$nombre = (string) trim($_POST['nombre']);
+$apellidos = (string) trim($_POST['apellidos']);
+$ano = (int) trim($_POST['ano']);
+$contact_id = '';
+
+if (!empty($nombre) && !empty($apellidos) && !empty($ano)) {
+    // TODO: compruebe si ya existe dicho contacto en la base de datos.
+
+    // Agregar un contacto a la base de datos
+    $sql = 'INSERT INTO contacto (`nombre`, `apellidos`, `ano`) VALUES (?,?,?) ';
+    $stmt = mysqli_prepare($link, $sql);
+    if ( !$stmt ) {
+        die('mysqli error: ' . mysqli_error($link));
+    }
+    mysqli_stmt_bind_param($stmt, "ssi", $nombre, $apellidos, $ano);
+    mysqli_stmt_execute($stmt);
+
+    // Obtenemos la contact_id del contacto agregado.
+    $sql = "SELECT id FROM contacto WHERE `nombre`=? AND `apellidos`=? AND `ano`=? ";
+    $stmt = mysqli_stmt_init($link);
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, "ssi", $nombre, $apellidos, $ano);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+        $contact_id = $row[0];
+    }
+    mysqli_free_result($result);
+    mysqli_stmt_close($stmt);
+
+} else {
+    // redireccionamiento interno 301
+    header('Location: /', true, 301);
+    exit;
+}
+
+// obtener una lista de teléfonos
+$telefonos = $_POST['telefonos'];
+
+if (!empty($telefonos) && !empty($contact_id)) {
+    // revisa la lista de teléfonos
+    foreach($telefonos as $telefono) {
+        $prefijo = $telefono['prefijo'];
+        $numero = $telefono['numero'];
+
+        // Agregar números de teléfono a un contacto
+        if (!empty($telefono['prefijo']) && !empty($telefono['numero'])) {
+            $sql = 'INSERT INTO telefono (`contact_id`, `prefijo`, `numero`) VALUES (?,?,?) ';
+            $stmt = mysqli_prepare($link, $sql);
+            if (!$stmt) {
+                die('mysqli error: ' . mysqli_error($link));
+            }
+            mysqli_stmt_bind_param($stmt, "iss", $contact_id, $prefijo, $numero);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
+    }
+}
+
+mysqli_close($link);
+
+header('Location: /list.php', true, 301);
+exit;
