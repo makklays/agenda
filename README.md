@@ -1,4 +1,4 @@
-# agenda
+# La agenda de contactos 
 
 Como ejemplo practico desarrolla una agenda de contactos en php, se nutrira de un json con la siguiente estructura: <br/>
 - contacto: nombre, apellidos, ano de nacimiento <br/>
