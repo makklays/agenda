@@ -11,7 +11,7 @@ Funcionalidades: <br/>
 2 - Boton para entrar y ver uno solo contacto <br/>
 3 - Anadir un contacto, no hace falta que sea persistente. <br/>
 
-Haz este ejemplo practico <b style="color:green;">en una hora</b>, no hace falta que lo termines. <br/>
+Haz este ejemplo practico <b>en una hora</b>, no hace falta que lo termines. <br/>
 Se valorara la legibilidad del codigo php, la limpieza y los comentarios. <br/>
 
 ![agenda_add_form](https://github.com/makklays/agenda/blob/master/screens/add.png)
