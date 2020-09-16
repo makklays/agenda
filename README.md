@@ -6,7 +6,7 @@ Como ejemplo practico desarrolla una agenda de contactos en php, se nutrira de u
 
 Cada contacto podra tener multiples telefonos.
 
-Funcionalidades:
+Funcionalidades:<br/>
 1 - Ver un listado de contactos
 2 - Boton para entrar y ver uno solo contacto
 3 - Anadir un contacto, no hace falta que sea persistente.
